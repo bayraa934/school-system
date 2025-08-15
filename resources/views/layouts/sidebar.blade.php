@@ -14,15 +14,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="">
+                <a href="{{route('student.index')}}">
                     <i class="la la-keyboard-o"></i>
                     <p>Oyutan</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="">
+                <a href="{{route('teacher.index')}}">
                     <i class="la la-keyboard-o"></i>
-                    <p>Basgh</p>
+                    <p>Teacher</p>
                 </a>
             </li>
             <li class="nav-item">
