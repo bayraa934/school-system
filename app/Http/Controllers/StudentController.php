@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Http\Request;
 
@@ -9,21 +10,33 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $students = Student::all(); 
-        return view('student.index', compact('students'));
-    }
-    
-    public function create()
-    {
-        return view('student.create');
+        $oyutanuud = Student::all();
+        return view('student.index', compact('oyutanuud'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create()
+    {
+        $angiud = SchoolClass::orderBy('id','desc')->get();
+        return view('student.create',compact('angiud'));
+    }
+
+
     public function store(Request $request)
     {
-        //
+        $image = null;
+        if($request->hasFile('image')){
+            $image = $request->file('image')->store('students','public');
+        }
+       Student::create([
+        'Firstname'=>$request->firstname,
+        'Lastname'=>$request->lastname,
+        'birthday'=>$request->birthday,
+        'gander'=>$request->gander,
+        'angi_id'=>$request->angi_id,
+        'phone'=>$request->phone,
+        'image'=>$image,
+       ]);
+       return redirect()->route('student.index');
     }
 
     /**

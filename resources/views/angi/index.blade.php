@@ -20,9 +20,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php
+                                $num = 1;
+                            @endphp
+                            @foreach ($angiud as $angi)
+
                             <tr>
-                                <td>1</td>
-                                <td>1A</td>
+                                <td>{{$num++}}</td>
+                                <td>{{$angi->name}}</td>
                                 <td><button type="button" class="btn btn-primary">
                                         <i class="bi bi-update"></i> update
                                     </button>
@@ -32,6 +37,7 @@
                                     </button>
                                 </td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

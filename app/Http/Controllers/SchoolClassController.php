@@ -12,7 +12,8 @@ class SchoolClassController extends Controller
      */
     public function index()
     {
-        return view('angi.index');
+        $angiud = SchoolClass::orderBy('id','asc')->get();
+        return view('angi.index',compact('angiud'));
     }
 
     /**
@@ -28,7 +29,11 @@ class SchoolClassController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $school = new SchoolClass();
+        $school::create([
+            'name'=>$request->name,
+        ]);
+        return redirect()->route('angi.index');
     }
 
     /**

@@ -1,38 +1,56 @@
 @extends('layouts.master')
-
 @section('content')
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white fw-bold fs-5">
-                    Шинэ багш нэмэх
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('teacher.store') }}" method="POST">
+<div class="container-fluid">
+    <h4 class="page-title">shine oyutan nemeh</h4>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card card-stats ">
+                <div class="card-body ">
+                    <form action="{{route('student.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
-
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Нэр</label>
-                            <input type="text" name="name" class="form-control" id="name" placeholder="Жишээ: Бат Эрдэнэ" required>
+                        <div class="form-group">
+                            <label for="title">Owog</label>
+                            <input type="text" name="firstname" class="form-control" id="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Ner</label>
+                            <input type="text" name="lastname" class="form-control" id="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">torson ondor</label>
+                            <input type="date" name="birthday" class="form-control" id="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="gander">Huis</label>
+                           <select name="" id="">
+                            <option value="Ergtei">Eregtei</option>
+                            <option value="Emegtei">Emegtei</option>
+                           </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Angi</label>
+                           <select name="angi_id" id="">
+                            @foreach ($angiud as $angi )
+                            <option value="{{$angi->id}}">{{$angi->name}}</option>
+                            @endforeach
+                            <option value="Ergtei"></option>
+                           </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">utas</label>
+                            <input type="text" name="phone" class="form-control" id="title" placeholder="Enter title">
+                        </div>
+                        <div class="form-group">
+                            <label for="title">zurag</label>
+                            <input type="file" name="image" class="form-control">
                         </div>
 
-                        {{-- Хэрвээ нэмэлт талбар байвал энд нэмээрэй --}}
-                        {{-- 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">И-мэйл</label>
-                            <input type="email" name="email" class="form-control" id="email" placeholder="example@mail.com">
-                        </div>
-                        --}}
-
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-plus-circle"></i> Нэмэх
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-search"></i> angi nemeh
                         </button>
-                        <a href="{{ route('student.index') }}" class="btn btn-outline-secondary">
-                            Буцах
-                        </a>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>

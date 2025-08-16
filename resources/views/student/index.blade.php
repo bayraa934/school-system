@@ -1,52 +1,47 @@
 @extends('layouts.master')
-
 @section('content')
-<div class="container py-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h3 class="fw-bold">Оюутнуудын жагсаалт</h3>
-        <a href="{{ route('student.create') }}" class="btn btn-outline-success">
-            <i class="bi bi-person-plus"></i> Оюутан нэмэх
-        </a>
-    </div>
+<div class="container-fluid">
+    <h4 class="page-title">oyurtanuud жагсаалт</h4>
+    <a href="{{route('student.create')}}" class="btn btn-primary">
+        <i class="bi bi-search"></i> angi нэмэх
+    </a>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-stats ">
+                <div class="card-body ">
+                    <table class="table mt-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ner</th>
+                                <th scope="col">zasah</th>
+                                <th scope="col">delete</th>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
-            <table class="table table-borderless table-hover mb-0">
-                <thead class="table-light">
-                    <tr class="align-middle text-uppercase text-muted small">
-                        <th style="width: 5%;">#</th>
-                        <th>Нэр</th>
-                        <th style="width: 15%;" class="text-center">Засах</th>
-                        <th style="width: 15%;" class="text-center">Устгах</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($students as $index => $student)
-                        <tr class="align-middle">
-                            <td>{{ $index + 1 }}</td>
-                            <td class="fw-semibold">{{ $student->name }}</td>
-                            <td class="text-center">
-                                <a href="{{ route('student.edit', $student->id) }}" class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i> Засах
-                                </a>
-                            </td>
-                            <td class="text-center">
-                                <form action="{{ route('student.destroy', $student->id) }}" method="POST" onsubmit="return confirm('Устгахдаа итгэлтэй байна уу?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                        <i class="bi bi-trash"></i> Устгах
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                $num = 1;
+                            @endphp
+                            @foreach ($oyutanuud as $oyutan)
+
+                            <tr>
+                                <td>{{$num++}}</td>
+                                <td>{{$oyutan->Lastname}}</td>
+                                <td><button type="button" class="btn btn-primary">
+                                        <i class="bi bi-update"></i> update
                                     </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-muted py-4">Оюутны бүртгэл олдсонгүй.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                                </td>
+                                <td><button type="button" class="btn btn-danger">
+                                        <i class="bi bi-delete"></i> delete
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
