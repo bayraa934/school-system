@@ -2,64 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\subject;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $subjects = Subject::all();
+        return view('subject.index', compact('subjects'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('subject.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Subject::create($request->only('name'));
+
+        return redirect()->route('subject.index')->with('success', 'Хичээл амжилттай нэмлээ');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(subject $subject)
+    public function edit(Subject $subject)
     {
-        //
+        return view('subject.edit', compact('subject'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(subject $subject)
+    public function update(Request $request, Subject $subject)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $subject->update($request->only('name'));
+
+        return redirect()->route('subject.index')->with('success', 'Хичээл амжилттай засагдлаа');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, subject $subject)
+    public function destroy(Subject $subject)
     {
-        //
-    }
+        $subject->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(subject $subject)
-    {
-        //
+        return redirect()->route('subject.index')->with('success', 'Хичээл устгагдлаа');
     }
 }
+
