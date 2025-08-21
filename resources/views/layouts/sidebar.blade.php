@@ -26,13 +26,13 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="">
+                <a href="{{route('subject.index')}}">
                     <i class="la la-keyboard-o"></i>
                     <p>Hicheel</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="">
+                <a href="{{route('enrollment.index')}}">
                     <i class="la la-keyboard-o"></i>
                     <p>Hicheel songolt</p>
                 </a>

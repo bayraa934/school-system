@@ -28,13 +28,18 @@ class SchoolClassController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $school = new SchoolClass();
-        $school::create([
-            'name'=>$request->name,
-        ]);
-        return redirect()->route('angi.index');
-    }
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+    ]);
+
+    SchoolClass::create([
+        'name' => $request->name,
+    ]);
+
+    return redirect()->route('angi.index');
+}
+
 
     /**
      * Display the specified resource.

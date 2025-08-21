@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
+use App\Models\Subject;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
@@ -10,14 +12,13 @@ class EnrollmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(){
+        $subjects = Subject::all();
+    $students = Student::all();
+
+    return view('enrollment.index', compact('subjects', 'students'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
@@ -28,7 +29,7 @@ class EnrollmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

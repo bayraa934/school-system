@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\SchoolClassController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\StudentController;
@@ -26,6 +27,7 @@ Route::resource('angi',SchoolClassController::class);
 Route::resource('teacher', TeacherController::class);
 Route::resource('student', StudentController::class);
 Route::resource('subject', SubjectController::class);
+Route::resource('enrollment', EnrollmentController::class);
 
 
 

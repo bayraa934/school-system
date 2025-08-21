@@ -2,7 +2,7 @@
 @section('content')
 <div class="container-fluid">
     <h4 class="page-title">Хичээлийн жагсаалт</h4>
-    <a href="{{ route('subject.create') }}" class="btn btn-primary">
+    <a href="{{ route('subject.create') }}" class="btn btn-primary" enctype="multipart/form-data">
         <i class="bi bi-plus-circle"></i> Хичээл нэмэх
     </a>
 
@@ -15,6 +15,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Нэр</th>
+                                <th>zurag</th>
                                 <th>Засах</th>
                                 <th>Устгах</th>
                             </tr>
@@ -25,8 +26,9 @@
                             @endphp
                             @foreach ($subjects as $subject)
                             <tr>
-                                <td>{{ $num++ }}</td>
-                                <td>{{ $subject->name }}</td>
+                                <td>{{$num++}}</td>
+                                <td>{{$subject->name}}</td>
+                                <td>{{$subject->image}}</td>
                                 <td>
                                     <a href="{{ route('subject.edit', $subject->id) }}" class="btn btn-primary">
                                         <i class="bi bi-pencil-square"></i> Засах

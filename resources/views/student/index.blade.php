@@ -14,6 +14,7 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">ner</th>
+                                <th scope="col">zurag</th>
                                 <th scope="col">zasah</th>
                                 <th scope="col">delete</th>
 
@@ -28,6 +29,7 @@
                             <tr>
                                 <td>{{$num++}}</td>
                                 <td>{{$oyutan->Lastname}}</td>
+                                <td><img src="{{asset('storage/'.$oyutan->image)}}" width="5%"/></td>
                                 <td><button type="button" class="btn btn-primary">
                                         <i class="bi bi-update"></i> update
                                     </button>
