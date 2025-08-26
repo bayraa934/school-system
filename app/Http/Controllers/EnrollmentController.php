@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Enrollment;
-use App\Models\Subject;
 use App\Models\Student;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class EnrollmentController extends Controller
@@ -12,25 +12,37 @@ class EnrollmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(){
-        $subjects = Subject::all();
-    $students = Student::all();
+    public function index()
+    {
+        $enrollments = Enrollment::with(['student', 'subject'])->get();
 
-    return view('enrollment.index', compact('subjects', 'students'));
+        return view('enrollment.index', compact('enrollments'));
     }
-
     public function create()
     {
-        //
+        $subjects = Subject::all();
+        $students = Student::all();
+
+        return view('enrollment.create', compact('subjects', 'students'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        
-    }
+    public function store(Request $request){
+
+
+    Enrollment::create([
+        'student_id' => $request->student_id,
+        'subject_id' => $request->subject_id,
+    ]);
+
+    return redirect()->route('enrollment.index')->with('success', 'Хичээл сонгогдлоо!');
+
+}
+
+
+
 
     /**
      * Display the specified resource.

@@ -70,6 +70,8 @@ class SchoolClassController extends Controller
      */
     public function destroy(SchoolClass $schoolClass)
     {
-        //
+        $schoolClass->delete();
+
+        return redirect()->route('angi.index')->with('success', 'Хичээл устгагдлаа');
     }
 }

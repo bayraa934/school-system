@@ -20,7 +20,6 @@ class StudentController extends Controller
         return view('student.create',compact('angiud'));
     }
 
-
     public function store(Request $request)
     {
         $image = null;
@@ -36,38 +35,44 @@ class StudentController extends Controller
         'phone'=>$request->phone,
         'image'=>$image,
        ]);
-       return redirect()->route('student.index');
+       return redirect()->route('student.index')->with('success', 'Оюутан амжилттай нэмэгдлээ');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Student $student)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Student $student)
     {
-        //
+        $angiud = SchoolClass::orderBy('id','desc')->get();
+        return view('student.edit', compact('student', 'angiud'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Student $student)
     {
-        //
+        $image = $student->image;
+
+        if($request->hasFile('image')){
+            // Хуучин зургийг устгах (хүсвэл)
+            if ($student->image) {
+                \Storage::disk('public')->delete($student->image);
+            }
+            $image = $request->file('image')->store('students','public');
+        }
+
+        $student->update([
+            'Firstname'=>$request->firstname,
+            'Lastname'=>$request->lastname,
+            'birthday'=>$request->birthday,
+            'gander'=>$request->gander,
+            'angi_id'=>$request->angi_id,
+            'phone'=>$request->phone,
+            'image'=>$image,
+        ]);
+
+        return redirect()->route('student.index')->with('success', 'Оюутны мэдээлэл шинэчлэгдлээ');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Student $student)
     {
-        //
+         $student->delete();
+
+        return redirect()->route('student.index')->with('success', 'Оюутан устгагдлаа');
     }
 }
