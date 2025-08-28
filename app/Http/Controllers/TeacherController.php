@@ -2,71 +2,81 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\teacher;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class TeacherController extends Controller
 {
-
+    // Бүх багшийг жагсаах
     public function index()
     {
         $teachers = Teacher::all();
         return view('teacher.index', compact('teachers'));
     }
 
+    // Шинэ багш нэмэх form харуулах
     public function create()
     {
-        $teachers = teacher::orderBy('id','desc')->get();
-        return view('teacher.create',compact('teachers'));
+        return view('teacher.create');
     }
 
-
+    // Шинэ багш хадгалах
     public function store(Request $request)
     {
-        // $request->validate([
-        //     'firstname' => 'required|string|max:255',
-        //     'lastname' => 'required|string|max:255',
-        //     'email' => 'nullable|email',
-        //     'phone' => 'nullable|string|max:20',
-        // ]);
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'email'     => 'nullable|email|max:255',
+            'phone'     => 'nullable|string|max:20',
+        ]);
 
         Teacher::create([
             'firstname' => $request->firstname,
-            'lastname' => $request->lastname,
-            'email' => $request->email,
-            'phone' => $request->phone,
+            'lastname'  => $request->lastname,
+            'email'     => $request->email,
+            'phone'     => $request->phone,
         ]);
 
         return redirect()->route('teacher.index')->with('success', 'Багш амжилттай нэмэгдлээ!');
     }
 
-
-    public function show(teacher $teacher)
+    // Багшийн дэлгэрэнгүй харах (хэрэглэхгүй бол хоосон орхиж болно)
+    public function show(Teacher $teacher)
     {
-        //
+        return view('teacher.show', compact('teacher'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(teacher $teacher)
+    // Засах form харуулах
+    public function edit(Teacher $teacher)
     {
-        //
+        return view('teacher.edit', compact('teacher'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, teacher $teacher)
+    // Зассан багшийн мэдээлэл хадгалах
+    public function update(Request $request, Teacher $teacher)
     {
-        //
+        $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'email'     => 'nullable|email|max:255',
+            'phone'     => 'nullable|string|max:20',
+        ]);
+
+        $teacher->update([
+            'firstname' => $request->firstname,
+            'lastname'  => $request->lastname,
+            'email'     => $request->email,
+            'phone'     => $request->phone,
+        ]);
+
+        return redirect()->route('teacher.index')->with('success', 'Багшийн мэдээлэл амжилттай шинэчлэгдлээ!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(teacher $teacher)
+    // Багшийг устгах
+    public function destroy(Teacher $teacher)
     {
-        //
+        $teacher->delete();
+
+        return redirect()->route('teacher.index')->with('success', 'Багш устгагдлаа!');
     }
 }

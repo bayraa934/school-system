@@ -52,26 +52,38 @@ class SchoolClassController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(SchoolClass $schoolClass)
+    public function edit(Request $request, SchoolClass $schoolClass)
     {
-        //
+        $schoolClass =SchoolClass::findOrFail($request->angi);
+       // dd($schoolClass);
+        return view('angi.edit', compact('schoolClass'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, SchoolClass $schoolClass)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+        $schoolClass = SchoolClass::findOrFail($request->angi);
+        $schoolClass->update([
+            'name' => $request->name,
+        ]);
+
+        return redirect()->route('angi.index')->with('success', 'Ангийн мэдээлэл шинэчлэгдлээ.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(SchoolClass $schoolClass)
-    {
-        $schoolClass->delete();
+{
+    $schoolClass->delete();
 
-        return redirect()->route('angi.index')->with('success', 'Хичээл устгагдлаа');
-    }
+    return redirect()->route('angi.index')->with('success', 'Ангийг амжилттай устгалаа.');
+}
+
 }

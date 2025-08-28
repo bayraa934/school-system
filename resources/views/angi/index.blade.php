@@ -28,9 +28,10 @@
                             <tr>
                                 <td>{{$num++}}</td>
                                 <td>{{$angi->name}}</td>
-                                <td><button type="button" class="btn btn-primary">
-                                        <i class="bi bi-update"></i> update
-                                    </button>
+                                <td>
+                                    <a href="{{ route('angi.edit', $angi) }}" class="btn btn-primary">
+                                        <i class="bi bi-pencil-square"></i> Засах
+                                    </a>
                                 </td>
                                 <td><button type="button" class="btn btn-danger">
                                         <i class="bi bi-delete"></i> delete

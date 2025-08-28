@@ -5,73 +5,89 @@ namespace App\Http\Controllers;
 use App\Models\SchoolClass;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
+    // Оюутнуудын жагсаалт харуулах
     public function index()
-    {
-        $oyutanuud = Student::all();
-        return view('student.index', compact('oyutanuud'));
-    }
+{
+    $oyutanuud = Student::with('schoolClass')->get(); // schoolClass харилцаагаар ангийн нэртэй авна
+    return view('student.index', compact('oyutanuud'));
+}
 
+
+    // Оюутан нэмэх form
     public function create()
     {
-        $angiud = SchoolClass::orderBy('id','desc')->get();
-        return view('student.create',compact('angiud'));
+        $angiud = SchoolClass::orderBy('id', 'desc')->get();
+        return view('student.create', compact('angiud'));
     }
 
+    // Оюутан хадгалах
     public function store(Request $request)
     {
-        $image = null;
-        if($request->hasFile('image')){
-            $image = $request->file('image')->store('students','public');
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'birthday'  => 'required|date',
+            'gander'    => 'required|in:Эрэгтэй,Эмэгтэй',
+            'angi_id'   => 'required|exists:school_classes,id',
+            'phone'     => 'nullable|string|max:20',
+            'image'     => 'nullable|image|max:2048',
+        ]);
+
+        // Зураг хадгалах
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('students', 'public');
         }
-       Student::create([
-        'Firstname'=>$request->firstname,
-        'Lastname'=>$request->lastname,
-        'birthday'=>$request->birthday,
-        'gander'=>$request->gander,
-        'angi_id'=>$request->angi_id,
-        'phone'=>$request->phone,
-        'image'=>$image,
-       ]);
-       return redirect()->route('student.index')->with('success', 'Оюутан амжилттай нэмэгдлээ');
+
+        Student::create($validated);
+
+        return redirect()->route('student.index')->with('success', 'Оюутан амжилттай нэмэгдлээ');
     }
 
+    // Засах form
     public function edit(Student $student)
     {
-        $angiud = SchoolClass::orderBy('id','desc')->get();
+        $angiud = SchoolClass::orderBy('id', 'desc')->get();
         return view('student.edit', compact('student', 'angiud'));
     }
 
+    // Мэдээлэл шинэчлэх
     public function update(Request $request, Student $student)
     {
-        $image = $student->image;
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+            'lastname'  => 'required|string|max:255',
+            'birthday'  => 'required|date',
+            'gander'    => 'required|in:Эрэгтэй,Эмэгтэй',
+            'angi_id'   => 'required|exists:school_classes,id',
+            'phone'     => 'nullable|string|max:20',
+            'image'     => 'nullable|image|max:2048',
+        ]);
 
-        if($request->hasFile('image')){
-            // Хуучин зургийг устгах (хүсвэл)
+        // Зураг шинэчлэх
+        if ($request->hasFile('image')) {
             if ($student->image) {
-                \Storage::disk('public')->delete($student->image);
+                Storage::disk('public')->delete($student->image);
             }
-            $image = $request->file('image')->store('students','public');
+            $validated['image'] = $request->file('image')->store('students', 'public');
         }
 
-        $student->update([
-            'Firstname'=>$request->firstname,
-            'Lastname'=>$request->lastname,
-            'birthday'=>$request->birthday,
-            'gander'=>$request->gander,
-            'angi_id'=>$request->angi_id,
-            'phone'=>$request->phone,
-            'image'=>$image,
-        ]);
+        $student->update($validated);
 
         return redirect()->route('student.index')->with('success', 'Оюутны мэдээлэл шинэчлэгдлээ');
     }
 
+    // Оюутан устгах
     public function destroy(Student $student)
     {
-         $student->delete();
+        if ($student->image) {
+            Storage::disk('public')->delete($student->image);
+        }
+
+        $student->delete();
 
         return redirect()->route('student.index')->with('success', 'Оюутан устгагдлаа');
     }
